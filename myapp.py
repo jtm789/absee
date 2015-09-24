@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 app.debug = False
@@ -12,7 +12,7 @@ def hello():
 @app.route('/demo', methods=['GET', 'POST'])
 def greeting():
     html = ''
-    
+
     html += """
     <form action="" method="post">
         <div><textarea cols="40" name="text"></textarea></div>
@@ -21,3 +21,7 @@ def greeting():
     """
 
     return html
+
+@app.route('/book')
+def hello():
+    return render_template('bookprice.html')
