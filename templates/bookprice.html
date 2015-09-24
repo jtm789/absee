@@ -1,30 +1,37 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>定价</title>
 	<script type="text/javascript" src="../static/js/jquery.min.js"></script>
 	<script type="text/javascript" src="../static/js/knockout-3.3.0.js"></script>
 </head>
 <body>
-	<p>First name: <input data-bind="value: firstName" /></p>
-	<p>Last name: <input data-bind="value: lastName"></p>
-	<h2><span data-bind="text: fullName"></span>!</h2>
+	<p><input data-bind='value: firstNumber, valueUpdate: "afterkeydown"' placeholder="first number"/></p>
+	<p><input data-bind='value: lastNumber, valueUpdate: "afterkeydown"' placeholder="second number" ></p>
+	<h2><span data-bind="text: total"></span></h2>
 </body>
 	<script type="text/javascript">
 		$(function(){
-
-			var ViewModel = function(first, last) {
-			    this.firstName = ko.observable(first);
-			    this.lastName = ko.observable(last);
-			 
-			    this.fullName = ko.pureComputed(function() {
-
-			        return this.firstName() + " " + this.lastName();
-			    }, this);
-			};
  
-			ko.applyBindings(new ViewModel("Planet", "Earth"));
+			var bookModel = function(){
+				var self = this;
+				self.firstNumber = ko.observable();
+				self.lastNumber = ko.observable();
+
+				self.total = ko.pureComputed(function() {
+					if(self.firstNumber())
+			        return parseFloat(self.firstNumber()) + parseFloat(self.lastNumber());
+			    });
+
+			};
+
+
+
+			ko.applyBindings(new bookModel());
 		});
 	</script>
 </html>
 
+<!--D:\python123\absee\static\js\jquery.min.js
+D:\python123\absee\templates\
+knockout-3.3.0.js-->
