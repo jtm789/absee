@@ -7,7 +7,7 @@ app.debug = False
 
 @app.route('/')
 def hello():
-    return "Hello, world! - Flask"
+    return render_template('bookprice.html')
 
 @app.route('/demo', methods=['GET', 'POST'])
 def greeting():
@@ -22,6 +22,5 @@ def greeting():
 
     return html
 
-@app.route('/book')
-def hello():
-    return render_template('bookprice.html')
+if __name__ == '__main__':
+    app.run()
