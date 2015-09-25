@@ -1,37 +1,116 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>定价</title>
-	<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+	<title>汇率</title>
+    <link rel="stylesheet" href="http://apps.bdimg.com/libs/jquerymobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script  src="http://apps.bdimg.com/libs/jquerymobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
 	<script type="text/javascript" src="../static/js/knockout-3.3.0.js"></script>
+
 </head>
 <body>
-	<p><input data-bind='value: firstNumber, valueUpdate: "afterkeydown"' placeholder="first number"/></p>
-	<p><input data-bind='value: lastNumber, valueUpdate: "afterkeydown"' placeholder="second number" ></p>
-	<h2><span data-bind="text: total"></span></h2>
+    <div data-role="page" id="home">
+        <div data-role="header">
+            <h1>Header</h1>
+        </div>
+        <div data-role="content">
+
+			<p><input data-bind='value: ShouYinShu, valueUpdate: "afterkeydown"' placeholder="首印数"/></p>
+			<p><input data-bind='value: BanShuiLv, valueUpdate: "afterkeydown"' placeholder="版税率(%)" ></p>
+
+			<p><input data-bind='value: YuFuKuan, valueUpdate: "afterkeydown"' placeholder="预付款" ></p>
+			<p><input data-bind='value: KiloWord, valueUpdate: "afterkeydown"' placeholder="字数(千字）" ></p>			
+			<p><input data-bind='value: PayPerKiloWord, valueUpdate: "afterkeydown"' placeholder="翻译费(元/千字)" ></p>
+			<p><input data-bind='value: YinShuFei, valueUpdate: "afterkeydown"' placeholder="印刷费" ></p>
+
+			<p><input data-bind='value: TiChengCeShu, valueUpdate: "afterkeydown"' placeholder="提成册数" ></p>
+			<p><input data-bind='value: TiChengPercent, valueUpdate: "afterkeydown"' placeholder="提成点数" ></p>
+			<p><input data-bind='value: SheJiFei, valueUpdate: "afterkeydown"' placeholder="设计费" ></p>
+			<p><input data-bind='value: PaiBanFei, valueUpdate: "afterkeydown"' placeholder="排版费" ></p>
+
+			<p><input data-bind='value: BianJiFei, valueUpdate: "afterkeydown"' placeholder="编辑费" ></p>
+			<p><input data-bind='value: HuiTuFei, valueUpdate: "afterkeydown"' placeholder="绘图费" ></p>
+			<p><input data-bind='value: ZaXiang, valueUpdate: "afterkeydown"' placeholder="杂项" ></p>												          
+        </div>
+        <div data-role="footer">
+            <h4>定价：<span data-bind="text: DingJia"></span></h4>
+        </div>
+    </div>
+
 </body>
-	<script type="text/javascript">
-		$(function(){
- 
-			var bookModel = function(){
-				var self = this;
-				self.firstNumber = ko.observable();
-				self.lastNumber = ko.observable();
-
-				self.total = ko.pureComputed(function() {
-					if(self.firstNumber())
-			        return parseFloat(self.firstNumber()) + parseFloat(self.lastNumber());
-			    });
-
-			};
 
 
+<script type="text/javascript">
+	$(function(){
 
-			ko.applyBindings(new bookModel());
-		});
-	</script>
+		var bookPriceViewModel = function(){
+			var self = this;
+
+		    self.ShouYinShu = ko.observable();
+		    self.BanShuiLv = ko.observable();
+
+		    self.YuFuKuan = ko.observable();
+		    self.KiloWord = ko.observable();
+		    self.PayPerKiloWord = ko.observable();
+		    self.YinShuFei = ko.observable();
+   
+            self.TiChengCeShu = ko.observable();
+            self.TiChengPercent = ko.observable();
+            self.SheJiFei = ko.observable();
+            self.PaiBanFei = ko.observable();
+
+            self.BianJiFei = ko.observable();
+            self.HuiTuFei = ko.observable();
+            self.ZaXiang = ko.observable();
+    
+            self.ZheKou = 0.3;
+             
+			self.DingJia = ko.pureComputed(function() {
+
+			if(isNotNumber(self.ShouYinShu())&&isNotNumber(self.BanShuiLv())&&
+				isNotNumber(self.YuFuKuan())&&isNotNumber(self.KiloWord())&&isNotNumber(self.PayPerKiloWord())&&
+				isNotNumber(self.YinShuFei())&&isNotNumber(self.TiChengCeShu())&&isNotNumber(self.TiChengPercent())&&
+				isNotNumber(self.SheJiFei())&&isNotNumber(self.PaiBanFei())&&isNotNumber(self.BianJiFei())&&
+				isNotNumber(self.HuiTuFei())&&isNotNumber(self.ZaXiang())){
+				return 0;
+			} 
+
+            var bookShouYinShu = parseFloat(self.ShouYinShu());
+            var bookBanShuiLv =parseFloat(self.BanShuiLv());
+
+            var bookYuFuKuan = parseFloat(self.YuFuKuan());
+            var bookKiloWord =parseFloat(self.KiloWord());
+			var bookPayPerKiloWord =parseFloat(self.PayPerKiloWord());
+			var bookYinShuFei = parseFloat(self.YinShuFei());
+
+
+            var bookTiChengCeShu =parseFloat(self.TiChengCeShu());
+			var bookTiChengPercent =parseFloat(self.TiChengPercent());
+            var bookSheJiFei =parseFloat(self.SheJiFei());
+			var bookPaiBanFei =parseFloat(self.PaiBanFei());
+
+
+            var bookBianJiFei =parseFloat(self.BianJiFei());
+			var bookHuiTuFei =parseFloat(self.HuiTuFei());
+            var bookZaXiang =parseFloat(self.ZaXiang());
+			var bookZheKou =parseFloat(self.ZheKou);
+
+
+			return bookShouYinShu + bookZheKou;
+
+		    });
+
+		};
+
+
+		ko.applyBindings(new bookPriceViewModel());
+	});
+
+    function isNotNumber(obj)
+    {
+    	var s=parseFloat(obj);
+    	return isNaN(s);
+    }
+	
+</script>
 </html>
-
-<!--D:\python123\absee\static\js\jquery.min.js
-D:\python123\absee\templates\
-knockout-3.3.0.js-->
